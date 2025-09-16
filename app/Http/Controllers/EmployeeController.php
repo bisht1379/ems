@@ -13,7 +13,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+      $users = User::get();
+     return view('employee.index',compact('users'));
     }
 
     /**
@@ -42,7 +43,7 @@ class EmployeeController extends Controller
             'department_id'=>'required',
             'role_id'=>'required',
             'image'=>'mimes:jpeg,jpg,png',
-            'start_from'=>'required',
+            'start_form'=>'required',
             'designation'=>'required'
         ]);
     
@@ -58,7 +59,8 @@ class EmployeeController extends Controller
         $data['image']=$image;
         $data['password']= bcrypt($request->password);
         User::create($data);
-        return redirect()->back()->with('message','User created Successfully');
+
+     return redirect()->route('employee.index')->with('message','Created succesfully');
     }
 
     /**
@@ -80,7 +82,9 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user=User::find($id);
+      
+        return view('employee.edit',compact('user'));
     }
 
     /**
@@ -92,7 +96,33 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required',
+            'email'=>'required|string|email|max:255|unique:users,email,'.$id,
+            'department_id'=>'required',
+            'role_id'=>'required',
+            'image'=>'mimes:jpeg,jpg,png',
+            'start_from'=>'required',
+            'designation'=>'required'
+        ]);
+        $data = $request->all();
+        $user = User::find($id);
+        if($request->hasFile('image')){
+            $image = $request->image->hashName();
+            $request->image->move(public_path('profile'),$image);
+        }else{
+            $image = $user->image;
+        }
+        if($request->password){
+            $password = $request->password;
+        }else{
+            $password = $user->password;
+        }
+        $data['image']=$image;
+        $data['password']= bcrypt($password);
+        $user->update($data);
+        return redirect()->back()->with('message','User updated Successfully');
+       
     }
 
     /**
@@ -103,6 +133,8 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+         User::find($id)->delete();
+        return redirect()->back()->with('message','User deleted Successfully');
+
     }
 }
