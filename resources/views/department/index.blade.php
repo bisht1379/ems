@@ -1,12 +1,13 @@
 @extends('admin.layouts.master')
 
 @section('content')
+
+
 <div class="container" style="margin-top: 5rem !important;">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">Department List</div>
-
                 <div class="card-body">
 
                 <div class="form-group">
@@ -16,8 +17,12 @@
       <th scope="col">#</th>
       <th scope="col">Name</th>
       <th scope="col">Description</th>
+        @if(isset(auth()->user()->role->permission['name']['department']['can-edit']))
       <th>Edit</th>
+      @endif
+       @if(isset(auth()->user()->role->permission['name']['department']['can-delete']))
        <th>Delete</th>
+         @endif
     </tr>
   </thead>
      
@@ -28,13 +33,17 @@
                     <td>{{$key+1}}</td>
                     <td>{{$department->name}}</td>
                     <td>{{$department->description}}</td>
+
                     <td>
-                        <a href="{{route('department.edit',[$department->id])}}"><i class="fas fa-edit"></i></a></td>
+                   @if(isset(auth()->user()->role->permission['name']['department']['can-edit']))
+                    <a href="{{route('department.edit',[$department->id])}}"><i class="fas fa-edit"></i></a></td>
+                    @endif
                     <td>
-    <a href="#" data-toggle="modal" data-target="#exampleModal{{$department->id}}">
+                      @if(isset(auth()->user()->role->permission['name']['department']['can-delete']))
+             <a href="#" data-toggle="modal" data-target="#exampleModal{{$department->id}}">
                         <i class="fas fa-trash"></i>
                     </a>
-                
+                @endif
                     <!-- Modal -->
                 <div class="modal fade" id="exampleModal{{$department->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">

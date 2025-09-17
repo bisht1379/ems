@@ -52,14 +52,20 @@
                     <td>{{$user->start_form}}</td>
                     <td>{{$user->address}}</td>
                     <td>{{$user->mobile_number}}</td>
+
+                    @if(isset(auth()->user()->role->permission['name']['user'] ['can-edit'] ))
                     <td>
                            <a href="{{route('employee.edit',[$user->id])}}">
                            <i class="fas fa-edit"></i></a>
                     </td>
+                   @endif
+
                     <td>
+                        @if(isset(auth()->user()->role->permission['name']['user'] ['can-delete'] ))
                     <a href="#" data-toggle="modal" data-target="#exampleModal{{$user->id}}">
                         <i class="fas fa-trash"></i>
                     </a>
+                     @endif
                     <!-- Modal -->
                 <div class="modal fade" id="exampleModal{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">

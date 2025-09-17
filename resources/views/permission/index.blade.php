@@ -26,13 +26,18 @@
                 <tr>
                     <td>{{$key+1}}</td>
                     <td>{{$permission->role->name}}</td>
+                    @if(isset(auth()->user()->role->permission['name']['permission']['can-edit']))
                     <td>
                         <a href="{{route('permissions.edit',[$permission->id])}}"><i class="fas fa-edit"></i></a></td>
-                    <td>
-    <a href="#" data-toggle="modal" data-target="#exampleModal{{$permission->id}}">
+                       @endif
+                        <td>
+                     
+                        @if(isset(auth()->user()->role->permission['name']['permission']['can-delete']))  
+             <a href="#" data-toggle="modal" data-target="#exampleModal{{$permission->id}}">
                         <i class="fas fa-trash"></i>
                     </a>
-                
+                     </td>
+                 @endif
                     <!-- Modal -->
                 <div class="modal fade" id="exampleModal{{$permission->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">

@@ -1,4 +1,3 @@
-@include('admin.layouts.header')
 @include('admin.layouts.navbar')
 
 @include('admin.layouts.sidebar')
@@ -6,5 +5,6 @@
                 <main>
 	@yield('content')
 </main>
-@include('admin.layouts.footer')
+
+@include('admin.layouts.fotter')
 

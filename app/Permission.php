@@ -7,14 +7,14 @@ use App\Role;
 class Permission extends Model
 {
     protected $guarded=[];
-
-    protected $casts =[
-        'name'=> 'array',
+     protected $casts = [
+        'name' => 'array',
     ];
 
-    public function role()
-    {
-        return  $this->belongsTo(role::class);
+    public function role(){
+    	return $this->belongsTo(Role::class);
     }
+   
+    
 
 }
